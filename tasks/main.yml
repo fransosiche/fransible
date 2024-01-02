@@ -1,0 +1,5 @@
+---
+- include_tasks: install-spotify.yml
+- include_tasks: install-obsidian.yml
+- include_tasks: install-exegol.yml
+- include_tasks: cleanup.yml

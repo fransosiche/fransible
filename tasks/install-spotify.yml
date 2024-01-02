@@ -1,0 +1,33 @@
+---
+- name: Check if Spotify is already installed
+  ansible.builtin.stat:
+    path: /usr/bin/spotify
+  register: spotify_installed
+
+- name: Download Spotify GPG key
+  ansible.builtin.get_url:
+    url : "{{ spotify_gpg_key_url }}"
+    dest: /tmp/spotify_gpg
+  when: not spotify_installed.stat.exists
+
+- name: De-Armor Spotify GPG key
+  ansible.builtin.shell: "gpg --dearmor --yes < /tmp/spotify_gpg > {{ spotify_gpg_dest }} && rm /tmp/spotify_gpg"
+  become: true
+  when: not spotify_installed.stat.exists
+
+- name: Add Spotify repository line to sources.list.d
+  ansible.builtin.lineinfile:
+    path: /etc/apt/sources.list.d/spotify.list
+    line: "{{ spotify_repo_url }}"
+    create: yes
+  become: true
+  when: not spotify_installed.stat.exists
+
+- name: Install Spotify
+  ansible.builtin.package:
+    update_cache: yes
+    name:
+      - spotify-client
+    state: latest
+  become: true
+  when: not spotify_installed.stat.exists

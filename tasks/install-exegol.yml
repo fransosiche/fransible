@@ -1,0 +1,13 @@
+- name: Add user to the docker group
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    groups: docker
+    append: "yes"
+  become: true
+
+- name: Reload user groups with the newly added docker group
+  ansible.builtin.shell: newgrp docker
+  become_user: "{{ ansible_user_id }}"
+
+- name: Install Exegol
+  ansible.builtin.shell: pipx install exegol

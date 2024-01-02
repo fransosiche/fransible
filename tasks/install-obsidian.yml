@@ -1,0 +1,40 @@
+---
+- name: Check if Obsidian is already installed
+  ansible.builtin.stat:
+    path: /usr/bin/obsidian
+  register: obsidian_installed
+  become: true
+
+- name: Find latest Obsidian release
+  ansible.builtin.uri:
+    url: '{{ obsidian_download_page }}'
+    return_content: true
+  register: obsidian_release
+  when: not obsidian_installed.stat.exists
+
+- name: Set the filename and download url
+  set_fact:
+    filename: '{{ asset_file.name }}'
+    download_url: '{{ asset_file.browser_download_url }}'
+  vars:
+    asset_file: "{{ obsidian_release.json.assets | selectattr('name', 'contains', 'amd64.deb') | join() }}"
+  when: not obsidian_installed.stat.exists
+
+- name: Download Obsidian
+  ansible.builtin.get_url:
+    url: '{{ download_url }}'
+    dest: '/tmp/obsidian-setup.deb'
+  when: not obsidian_installed.stat.exists
+
+- name: Install Obsidian
+  ansible.builtin.apt:
+    deb: '/tmp/obsidian-setup.deb'
+    state: present
+  become: true
+  when: not obsidian_installed.stat.exists
+
+- name: Delete file /tmp/obsidian-setup.deb
+  ansible.builtin.file:
+    path: '/tmp/obsidian-setup.deb'
+    state: absent
+  when: not obsidian_installed.stat.exists
