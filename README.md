@@ -6,11 +6,21 @@ This playbook is intented to complement the [`lalubuntu` playbooks](https://gith
 
 ## Sum-Up
 
-<todo>
+The ansible playbook main.yml applies 4 ansible tasks which are:
+
+tasks/install-spotify
+tasks/install-obsidian
+tasks/install-exegol
+tasks/cleanup
 
 ##  Install
 
-<todo>
+```bash
+git clone https://github.com/fransosiche/fransible
+sudo mv fransible /opt/fransible
+cd /opt/fransible
+ansible-playbook -vvv -i inventory.ini --ask-become main.yml
+```
 
 ## What's getting installed ?
 
