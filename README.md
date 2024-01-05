@@ -8,7 +8,7 @@ This playbook is intented to complement the [`lalubuntu` playbooks](https://gith
 
 <todo>
 
-## Pre-Install, Install, Update
+##  Install
 
 <todo>
 

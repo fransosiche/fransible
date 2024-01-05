@@ -1,0 +1,20 @@
+---
+- name: Custom fransible config
+  hosts: localhost
+  connection: local
+
+  vars_files:
+    - defaults/main.yml
+  
+  tasks:
+    - name: Install Spotify
+      ansible.builtin.include_tasks: tasks/install-spotify.yml
+
+    - name: Install Obsidian
+      ansible.builtin.include_tasks: tasks/install-obsidian.yml
+      
+    - name: Install Exegol
+      ansible.builtin.include_tasks: tasks/install-exegol.yml
+    
+    - name: Cleanup shits
+      ansible.builtin.include_tasks: tasks/cleanup.yml
