@@ -1,5 +1,5 @@
-spotify_gpg_dest: "/etc/apt/keyrings/spotify.gpg"
+spotify_gpg_dest: "/etc/apt/trusted.gpg.d/spotify.gpg"
 spotify_repo_url: "deb [arch=amd64 signed-by={{ spotify_gpg_dest }}] http://repository.spotify.com stable non-free"
-spotify_gpg_key_url: "https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg"
+spotify_gpg_key_url: "https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg"
 
 obsidian_download_page: "https://api.github.com/repos/obsidianmd/obsidian-releases/releases/latest"
